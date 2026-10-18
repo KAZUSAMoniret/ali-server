@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.name }} · 生活手记{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+  {% if is_preview %}<meta name="robots" content="noindex,nofollow">{% endif %}
+  <link rel="icon" href="{% static 'blog/favicon.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'blog/site.css' %}">
+</head>
+<body>
+<a class="skip-link" href="#main">跳转到正文</a>
+<header class="site-header wrap">
+  <a class="brand" href="{% url 'home' %}"><span class="brand-mark" aria-hidden="true">日</span>{{ site.name }}<span class="brand-en">LIFE, IN NOTES</span></a>
+  <nav aria-label="主导航">
+    <a {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">手记</a>
+    <a {% if request.resolver_match.url_name == 'archives' %}aria-current="page"{% endif %} href="{% url 'archives' %}">归档</a>
+    <a {% if request.resolver_match.url_name == 'about' %}aria-current="page"{% endif %} href="{% url 'about' %}">关于</a>
+  </nav>
+</header>
+<main id="main" class="wrap">{% block content %}{% endblock %}</main>
+<footer class="site-footer wrap">
+  <div><a href="{% url 'home' %}">{{ site.name }}</a><p>认真生活，慢慢记录。</p></div>
+  <div class="footer-note">© {% now "Y" %} · 一个人的小小角落
+  {% if site.icp_number %}<a href="https://beian.miit.gov.cn/" rel="noopener noreferrer" target="_blank">{{ site.icp_number }}</a>{% endif %}
+  <a href="{% url 'admin:index' %}">写作入口 ↗</a></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,7 @@
+Django>=5.2,<5.3
+Pillow
+markdown-it-py
+nh3
+psycopg[binary]
+gunicorn
+python-dotenv

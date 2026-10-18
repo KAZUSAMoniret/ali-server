@@ -1,0 +1,25 @@
+[Unit]
+Description=Personal life blog (Gunicorn)
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=blog
+Group=www-data
+WorkingDirectory=/srv/life-blog/app
+EnvironmentFile=/etc/life-blog.env
+ExecStart=/srv/life-blog/venv/bin/gunicorn config.wsgi:application --bind 127.0.0.1:8001 --workers 2 --timeout 60 --access-logfile - --error-logfile -
+Restart=on-failure
+RestartSec=5
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/life-blog
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

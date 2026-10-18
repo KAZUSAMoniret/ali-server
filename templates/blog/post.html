@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} · {{ site.name }}{% endblock %}
+{% block description %}{{ post.summary|default:site.description }}{% endblock %}
+{% block content %}
+<article class="article">
+<a class="eyebrow" href="{% url 'home' %}">← 回到手记</a>
+{% if is_preview %}<div class="preview-notice">这是已保存内容的预览，仅管理员可见。未保存的编辑请使用编辑器预览。</div>{% endif %}
+<header class="article-header"><div class="post-meta"><time>{{ post.published_at|default:post.created_at|date:'Y年m月d日' }}</time><span>生活手记</span></div>
+<h1>{{ post.title }}</h1>{% if post.summary %}<p class="article-summary">{{ post.summary }}</p>{% endif %}</header>
+{% if post.cover %}<img class="article-cover" src="{{ post.cover.get_absolute_url }}" alt="{{ post.cover.alt }}">{% endif %}
+<div class="prose">{{ body_html|safe }}</div>
+<footer class="article-end"><span>— 记于一个平凡的日子 —</span><div class="tags">{% for tag in post.tags.all %}<a href="{{ tag.get_absolute_url }}"># {{ tag.name }}</a>{% endfor %}</div></footer>
+</article>
+{% endblock %}

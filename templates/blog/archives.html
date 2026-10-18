@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}时光归档 · {{ site.name }}{% endblock %}
+{% block content %}
+<section class="page-heading"><p class="eyebrow">A WALK THROUGH TIME</p><h1>时光有迹。</h1><p>翻过一页又一页，都是认真生活的证据。</p></section>
+<section class="archive-list">
+{% regroup posts by published_at|date:'Y年m月' as months %}
+{% for month in months %}<div class="archive-month"><h2>{{ month.grouper }}</h2><div>{% for post in month.list %}<a class="archive-row" href="{{ post.get_absolute_url }}"><time>{{ post.published_at|date:'m.d' }}</time><span>{{ post.title }}</span><b aria-hidden="true">↗</b></a>{% endfor %}</div></div>
+{% empty %}<div class="empty"><h2>时光的第一页，等待落笔。</h2><p>发布的文章会按月份收集在这里。</p></div>{% endfor %}
+</section>
+{% endblock %}

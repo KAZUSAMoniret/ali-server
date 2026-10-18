@@ -1,0 +1,18 @@
+{% extends 'admin/change_form.html' %}{% load static %}
+{% block extrahead %}{{ block.super }}<script src="{% static 'blog/editor.js' %}" defer></script><link rel="stylesheet" href="{% static 'blog/editor.css' %}">{% endblock %}
+{% block after_field_sets %}
+<div id="writing-tools" class="module" data-preview-url="{{ markdown_preview_url }}" data-upload-url="{{ photo_upload_url|default:'' }}">
+<h2>写作工具</h2>
+<div class="tools-inner"><button type="button" id="preview-markdown">预览当前 Markdown</button>
+{% if post_preview_url %}<a href="{{ post_preview_url }}" target="_blank" rel="noopener">打开已保存文章预览 ↗</a>{% endif %}
+<p>预览不会保存修改。完成编辑后，请点击页面底部的保存按钮。</p>
+{% if photo_upload_url %}
+<div class="upload-controls"><label for="photo-file">插入图片</label><input id="photo-file" type="file" accept="image/jpeg,image/png,image/webp">
+<label for="photo-alt">图片说明</label><input id="photo-alt" maxlength="200" placeholder="描述照片内容，也用于无障碍阅读">
+<button type="button" id="upload-photo">上传并插入正文</button></div>
+<p>JPEG / PNG / WebP，每张不超过 10 MB。上传后可在封面下拉框中选择这张图片。</p>
+{% else %}<p>请先保存为草稿，再上传封面和正文图片。</p>{% endif %}
+<p id="editor-status" role="status" aria-live="polite"></p>
+<div id="markdown-preview" class="markdown-preview" hidden></div>
+</div></div>
+{% endblock %}
